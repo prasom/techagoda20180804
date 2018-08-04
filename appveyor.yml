@@ -24,6 +24,10 @@ before_build:
     yarn webpack
 
     dotnet restore
+
+    choco install opencover.portable
+
+-   choco install codecov
 build:
   project: src\techagoda.csproj
   publish_aspnet_core: true
@@ -31,7 +35,6 @@ build:
 test_script:
 - ps: >-
     & $env:USERPROFILE\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -oldStyle -target:"dotnet.exe" -targetargs:"test src\tests\tests.csproj" -filter:"+[opensourceci*]* +[tests*]*" -output:"coverage.xml"
-    choco install codecov
     
     codecov -f coverage.xml
 notifications:
